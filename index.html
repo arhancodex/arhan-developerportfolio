@@ -1320,12 +1320,18 @@
     .contact-item span:first-child {
       width: 34px;
       height: 34px;
+      flex: 0 0 34px;
       display: grid;
       place-items: center;
       border-radius: 10px;
       background: rgba(94, 234, 212, 0.08);
       color: var(--primary);
       font-weight: 800;
+    }
+
+    .contact-item span:last-child {
+      min-width: 0;
+      overflow-wrap: anywhere;
     }
 
     .footer {
@@ -1597,7 +1603,7 @@
       <div class="container">
         <div class="section-head reveal">
           <h2>About Me</h2>
-          <p> I care about clean code, clear thinking, and products that help real people solve real problems.</p>
+          <p>I care about clean code, clear thinking, and products that help real people solve real problems.</p>
         </div>
 
         <div class="about reveal reveal-stagger">
@@ -1613,7 +1619,7 @@
             </p>
 
             <ul class="about-list">
-              <li><span class="dot"></span> Front-end architecture with strong UX principles</li>
+              <li><span class="dot"></span>Front-end architecture with strong UX principles</li>
               <li><span class="dot"></span> Back-end logic and API integration</li>
               <li><span class="dot"></span> Performance optimization and responsive design</li>
             </ul>
