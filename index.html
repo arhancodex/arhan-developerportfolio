@@ -306,49 +306,17 @@
       min-height: 520px;
     }
 
-    .orb {
-      position: absolute;
-      width: 420px;
-      height: 420px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 30% 30%, rgba(94, 234, 212, 0.55), rgba(124, 58, 237, 0.35), rgba(7,17,31,0.1) 60%, transparent 72%);
-      filter: blur(8px);
-      animation: float 6s ease-in-out infinite;
-    }
-
-    .profile-box {
+     .profile-photo {
       position: relative;
-      width: min(420px, 100%);
-      padding: 28px;
-      border-radius: 30px;
-      background: linear-gradient(180deg, rgba(14, 28, 41, 0.96), rgba(9, 17, 29, 0.8));
-      border: 1px solid var(--line);
-      box-shadow: 0 30px 60px var(--shadow);
-      transform: rotate(-4deg);
-      animation: lift 5s ease-in-out infinite alternate;
+      width: min(340px, 78vw);
+      aspect-ratio: 1;
+      border: 3px solid rgba(94, 234, 212, 0.8);
+      border-radius: 100%;
+      object-fit: cover;
+      box-shadow: 0 24px 60px rgba(94, 234, 212, 0.24);
+      animation: float 4s ease-in-out infinite;
     }
 
-    .profile-box::before {
-      content: "";
-      position: absolute;
-      inset: 14px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 24px;
-    }
-
-    .avatar {
-      width: 150px;
-      height: 150px;
-      border-radius: 28px;
-      margin: 10px auto 22px;
-      display: grid;
-      place-items: center;
-      font-size: 3rem;
-      font-weight: 800;
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      color: #06151d;
-      box-shadow: 0 18px 40px rgba(94, 234, 212, 0.3);
-    }
 
     .profile-box h3 {
       margin: 0 0 8px;
