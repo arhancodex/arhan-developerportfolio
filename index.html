@@ -1286,25 +1286,57 @@
 
     .contact-box {
       display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 22px;
-      align-items: center;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+      gap: 0;
+      align-items: stretch;
+      overflow: hidden;
+      border: 1px solid rgba(138, 171, 201, 0.16);
+      border-radius: 28px;
+      background: rgba(8, 19, 32, 0.9);
+      box-shadow: 0 28px 60px rgba(0, 0, 0, 0.22);
     }
 
     .contact-card {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: clamp(28px, 4vw, 52px);
+      background: linear-gradient(135deg, rgba(13, 27, 42, 0.96), rgba(8, 18, 31, 0.9));
     }
 
-    .contact-card h3 {
-      margin: 0 0 14px;
-      font-size: 1.8rem;
+    .contact-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+      color: #7dd3fc;
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
     }
 
-    .contact-card p {
-      margin: 0 0 22px;
+    .contact-eyebrow::before {
+      width: 26px;
+      height: 1px;
+      background: currentColor;
+      content: "";
+    }
+
+    .contact-heading {
+      margin: 0 0 20px;
+      font-size: clamp(2rem, 3.3vw, 3rem);
+      line-height: 1.04;
+    }
+
+    .contact-heading span {
+      display: block;
+      color: #7dd3fc;
+    }
+
+    .contact-copy {
+      max-width: 440px;
+      margin: 0 0 24px;
       color: var(--muted);
     }
 
@@ -1316,42 +1348,182 @@
     .contact-item {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 16px;
       color: var(--text);
       background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 14px;
-      padding: 12px 14px;
+      border: 1px solid rgba(138, 171, 201, 0.14);
+      border-radius: 18px;
+      padding: 16px;
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
     }
 
-    .contact-item span:first-child {
-      width: 34px;
-      height: 34px;
-      flex: 0 0 34px;
+    .contact-item:hover {
+      transform: translateX(8px);
+      border-color: rgba(125, 211, 252, 0.32);
+      box-shadow: 0 12px 24px rgba(12, 20, 31, 0.18);
+    }
+
+    .contact-icon {
+      width: 50px;
+      height: 50px;
+      flex: 0 0 50px;
       display: grid;
       place-items: center;
-      border-radius: 10px;
-      background: rgba(94, 234, 212, 0.08);
-      color: var(--primary);
+      border-radius: 15px;
+      background: rgba(125, 211, 252, 0.12);
+      color: #7dd3fc;
       font-weight: 800;
     }
 
-    .contact-item span:last-child {
+    .contact-email-details {
+      display: grid;
+      gap: 3px;
       min-width: 0;
+    }
+
+    .contact-label {
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    .contact-email-value {
+      font-weight: 700;
       overflow-wrap: anywhere;
     }
 
-    .footer {
-      border-top: 1px solid var(--line);
-      padding: 26px 0 40px;
+    .copy-email {
+      margin-left: auto;
+      border: 1px solid rgba(138, 171, 201, 0.18);
+      border-radius: 8px;
+      padding: 6px 11px;
+      background: rgba(255, 255, 255, 0.02);
       color: var(--muted);
+      font: inherit;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      flex: 0 0 auto;
+    }
+
+    .copy-email:hover,
+    .copy-email:focus-visible {
+      border-color: #7dd3fc;
+      color: var(--text);
+      outline: none;
+    }
+
+    .contact-form-panel {
+      display: flex;
+      align-items: center;
+      padding: clamp(28px, 3.8vw, 52px);
+      background: linear-gradient(180deg, rgba(10, 18, 29, 0.96), rgba(8, 17, 28, 0.88));
+    }
+
+    .copy-toast {
+      position: fixed;
+      z-index: 120;
+      bottom: 28px;
+      left: 50%;
+      max-width: calc(100vw - 32px);
+      padding: 12px 22px;
+      border-radius: 999px;
+      background: var(--text);
+      color: #07111f;
+      font-weight: 700;
       text-align: center;
+      overflow-wrap: anywhere;
+      opacity: 0;
+      visibility: hidden;
+      transform: translate(-50%, 12px);
+      transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+    }
+
+    .copy-toast.is-visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translate(-50%, 0);
+    }
+
+    .inquiry-form {
+      display: grid;
+      width: 100%;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      align-content: center;
+      gap: 18px 16px;
+    }
+
+    .inquiry-form label {
+      display: grid;
+      gap: 6px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .inquiry-form input,
+    .inquiry-form textarea {
+      width: 100%;
+      border: 1px solid rgba(138, 171, 201, 0.18);
+      border-radius: 14px;
+      padding: 13px 15px;
+      background: rgba(8, 17, 29, 0.9);
+      color: var(--text);
+      font: inherit;
+    }
+
+    .inquiry-form input {
+      min-height: 54px;
+    }
+
+    .inquiry-form textarea {
+      grid-column: 1 / -1;
+      min-height: 110px;
+      resize: none;
+      overflow-y: hidden;
+    }
+
+    .inquiry-form input:focus-visible,
+    .inquiry-form textarea:focus-visible {
+      border-color: #7dd3fc;
+      outline: 2px solid rgba(125, 211, 252, 0.16);
+    }
+
+    .inquiry-submit-row {
+      display: flex;
+      grid-column: 1 / -1;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .inquiry-submit {
+      flex: 0 0 auto;
+      cursor: pointer;
+      font: inherit;
+      background: #7dd3fc;
+      color: #07111f;
+      box-shadow: 0 12px 28px rgba(125, 211, 252, 0.18);
+    }
+
+    .inquiry-submit:hover {
+      box-shadow: 0 16px 32px rgba(125, 211, 252, 0.22);
+    }
+
+    .inquiry-note {
+      max-width: 300px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.9rem;
     }
 
     .reveal {
       opacity: 0;
       transform: translateY(24px);
       transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .reveal.visible {
@@ -1466,6 +1638,10 @@
         grid-template-columns: 1fr;
       }
 
+      .contact-card {
+        border-bottom: 1px solid rgba(194, 225, 210, 0.12);
+      }
+
       .skills-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
@@ -1516,6 +1692,20 @@
       .skills-grid,
       .stats-box {
         grid-template-columns: 1fr;
+      }
+
+      .inquiry-form {
+        grid-template-columns: 1fr;
+      }
+
+      .inquiry-form textarea,
+      .inquiry-submit-row {
+        grid-column: 1;
+      }
+
+      .inquiry-submit-row {
+        align-items: flex-start;
+        flex-direction: column;
       }
 
       .mini-stats {
@@ -1710,24 +1900,38 @@
     </section>
 
     <section id="contact">
-      <div class="container contact-box reveal reveal-stagger">
+      <div class="container contact-box reveal">
         <div class="contact-card">
-          <h3>Let’s build something great.</h3>
-          <p>
-            Whether it’s a startup idea, a redesign, or a full product build, I’d love to help bring it to life.
-          </p>
+          <div class="contact-eyebrow">Contact</div>
+          <h2 class="contact-heading">Let's build your <span>next website.</span></h2>
+          <p class="contact-copy">Tell me about your project.</p>
           <div class="contact-list">
-            <div class="contact-item"><span>E</span><span>iamarhanmalik2026@gmail.com</span></div>
-    
+            <div class="contact-item">
+              <span class="contact-icon" aria-hidden="true">E</span>
+              <div class="contact-email-details">
+                <span class="contact-label">Email</span>
+                <span class="contact-email-value" id="contact-email">iamarhanmalik2026@gmail.com</span>
+              </div>
+              <button class="copy-email" id="copy-email" type="button" aria-label="Copy email address">Copy</button>
+            </div>
           </div>
         </div>
 
-        <div class="panel">
-          <h3 style="margin-top:0; font-size:1.8rem;">Quick intro</h3>
-          <p style="color: var(--muted); margin-bottom: 18px;">
-            I turn complex ideas into elegant, responsive, and high-performing user experiences. If you need a developer who values detail, speed, and polish, let’s connect.
-          </p>
-          <a class="btn btn-primary" href="mailto:iamarhan2026@gmail.com">Email Me</a>
+        <div class="contact-form-panel">
+          <form class="inquiry-form" id="inquiry-form">
+            <label for="inquiry-name">Your name
+              <input id="inquiry-name" name="name" autocomplete="name" placeholder="Your name" required>
+            </label>
+            <label for="inquiry-email">Email
+              <input id="inquiry-email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+            </label>
+            <label for="inquiry-message" style="grid-column: 1 / -1;">About your project
+              <textarea id="inquiry-message" name="message" placeholder="Tell me what you're looking to build..." required></textarea>
+            </label>
+            <div class="inquiry-submit-row">
+              <button class="btn inquiry-submit" type="submit">Send inquiry <span aria-hidden="true">↗</span></button>
+            </div>
+          </form>
         </div>
       </div>
     </section>
@@ -1739,6 +1943,8 @@
     </div>
   </footer>
 
+  <div class="copy-toast" id="copy-toast" role="status" aria-live="polite"></div>
+
   <script>
     document.addEventListener('pointermove', (event) => {
       document.body.style.setProperty('--cursor-x', `${event.clientX}px`);
@@ -1746,6 +1952,44 @@
     }, { passive: true });
 
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    const contactEmail = document.getElementById('contact-email').textContent.trim();
+    const copyEmailButton = document.getElementById('copy-email');
+    const copyToast = document.getElementById('copy-toast');
+    let copyToastTimeout;
+
+    copyEmailButton.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(contactEmail);
+        copyToast.textContent = `Copied ${contactEmail}`;
+        copyToast.classList.add('is-visible');
+        clearTimeout(copyToastTimeout);
+        copyToastTimeout = setTimeout(() => copyToast.classList.remove('is-visible'), 2400);
+      } catch {
+        copyToast.textContent = 'Could not copy email address.';
+        copyToast.classList.add('is-visible');
+        clearTimeout(copyToastTimeout);
+        copyToastTimeout = setTimeout(() => copyToast.classList.remove('is-visible'), 2400);
+      }
+    });
+
+    const inquiryMessage = document.getElementById('inquiry-message');
+
+    function resizeInquiryMessage() {
+      inquiryMessage.style.height = 'auto';
+      inquiryMessage.style.height = `${inquiryMessage.scrollHeight}px`;
+    }
+
+    inquiryMessage.addEventListener('input', resizeInquiryMessage);
+    resizeInquiryMessage();
+
+    document.getElementById('inquiry-form').addEventListener('submit', (event) => {
+      event.preventDefault();
+      const formData = new FormData(event.currentTarget);
+      const subject = `Portfolio inquiry from ${formData.get('name')}`;
+      const body = `From: ${formData.get('name')} (${formData.get('email')})\n\n${formData.get('message')}`;
+      window.location.href = `mailto:${contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    });
 
     async function typeProfileIntro() {
       const target = document.querySelector('[data-typing-text]');
