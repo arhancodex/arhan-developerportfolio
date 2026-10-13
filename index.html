@@ -325,12 +325,14 @@
     }
 
     .typing-line {
-      min-height: 1.6em;
+      min-height: 1.7em;
       margin: 0;
       color: var(--text);
-      font-size: clamp(1rem, 2vw, 1.2rem);
+      font-size: 1.8rem;
       font-weight: 700;
       text-align: center;
+      line-height: 1.2;
+      letter-spacing: -0.04em;
     }
 
     .typing-line:last-child {
@@ -1585,8 +1587,7 @@
         <div class="profile-card reveal visible">
           <img class="profile-photo" src="arhanmalik.jpeg" alt="Arhan Malik">
           <div class="profile-intro" aria-live="polite">
-            <p class="typing-line" aria-label="Hii, i'm Arhan malik"><span data-typing-text="Hii, i'm Arhan malik"></span></p>
-            <p class="typing-line" aria-label="I'm a class 8th student passionate about programming"><span data-typing-text="I'm a class 8th student passionate about programming"></span></p>
+            <p class="typing-line" aria-label="Typing intro"><span data-typing-text="Hii, i'm Arhan malik"></span></p>
           </div>
         </div>
       </div>
@@ -1747,22 +1748,44 @@
     document.getElementById('year').textContent = new Date().getFullYear();
 
     async function typeProfileIntro() {
-      const lines = document.querySelectorAll('[data-typing-text]');
+      const target = document.querySelector('[data-typing-text]');
+      if (!target) return;
+
+      const phrases = [
+        "Hii, i'm Arhan malik",
+        "I'm a class 8th student passionate about programming"
+      ];
       const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      for (const line of lines) {
-        const text = line.dataset.typingText;
-        if (reducedMotion) {
-          line.textContent = text;
-          continue;
+      async function typeText(element, text, speed = 55) {
+        element.textContent = '';
+        for (let i = 0; i < text.length; i++) {
+          element.textContent += text[i];
+          await new Promise((resolve) => setTimeout(resolve, speed));
         }
+      }
 
-        for (const character of text) {
-          line.textContent += character;
-          await new Promise((resolve) => setTimeout(resolve, 45));
+      async function eraseText(element, speed = 35) {
+        const text = element.textContent;
+        for (let i = text.length; i >= 0; i--) {
+          element.textContent = text.slice(0, i);
+          await new Promise((resolve) => setTimeout(resolve, speed));
         }
+      }
 
-        await new Promise((resolve) => setTimeout(resolve, 250));
+      while (true) {
+        for (const phrase of phrases) {
+          if (reducedMotion) {
+            target.textContent = phrase;
+            await new Promise((resolve) => setTimeout(resolve, 600));
+            continue;
+          }
+
+          await typeText(target, phrase);
+          await new Promise((resolve) => setTimeout(resolve, 600));
+          await eraseText(target);
+          await new Promise((resolve) => setTimeout(resolve, 200));
+        }
       }
     }
 
