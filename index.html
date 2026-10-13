@@ -1011,7 +1011,7 @@
       border: 1px solid #dbe1e8;
       border-radius: 5px;
       background: #fff;
-      color: var(--ink);
+      color: var(--text);
       font: inherit;
       outline-color: #119d7e;
     }
@@ -1312,6 +1312,12 @@
       border: 1px solid rgba(138, 171, 201, 0.14);
       border-radius: 18px;
       background: rgba(255, 255, 255, 0.025);
+      box-shadow: 0 0 0 1px transparent;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .contact-address-row {
+      margin-top: 12px;
     }
 
     .contact-email-icon {
@@ -1335,30 +1341,21 @@
       overflow-wrap: anywhere;
     }
 
-    .copy-email {
-      border: 1px solid rgba(138, 171, 201, 0.24);
-      border-radius: 8px;
-      padding: 8px 11px;
-      background: rgba(255, 255, 255, 0.04);
-      color: var(--muted);
-      font: inherit;
-      font-size: 0.85rem;
-      font-weight: 600;
-      cursor: pointer;
-      flex: 0 0 auto;
+    .contact-address-value {
+      display: flex;
+      flex: 1 1 auto;
+      min-width: 0;
+      flex-direction: column;
     }
 
-    .copy-email:hover,
-    .copy-email:focus-visible {
-      border-color: #7dd3fc;
-      outline: 2px solid rgba(125, 211, 252, 0.16);
+    .contact-address-value span {
+      color: var(--muted);
+      font-size: 0.82rem;
     }
 
-    .copy-status {
-      min-height: 1.5em;
-      margin-top: 8px;
-      color: var(--muted);
-      font-size: 0.85rem;
+    .contact-address-value strong {
+      color: var(--text);
+      font-size: 1rem;
     }
 
     .contact-message {
@@ -1366,12 +1363,20 @@
       flex-direction: column;
       align-items: flex-start;
       justify-content: center;
+      align-self: start;
       padding: clamp(28px, 4vw, 52px);
       border: 1px solid rgba(138, 171, 201, 0.2);
       border-radius: 28px;
       background: rgba(17, 30, 46, 0.78);
       box-shadow: 0 20px 45px rgba(0, 0, 0, 0.16);
       text-align: left;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .contact-email-row:hover {
+        transform: translateX(8px);
+        box-shadow: 0 0 0 1px rgba(94, 234, 212, 0.75), 0 0 16px rgba(94, 234, 212, 0.15);
+      }
     }
 
     .contact-eyebrow {
@@ -1412,7 +1417,7 @@
 
     .footer {
       width: 100%;
-      padding: 10px 0 18px;
+      padding: 4px 0 6px;
       background: transparent;
     }
 
@@ -1420,17 +1425,17 @@
       position: relative;
       width: 100%;
       max-width: none;
-      min-height: 88px;
+      min-height: 48px;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 12px 18px 0;
+      padding: 4px 18px 0;
       border-top: 1px solid rgba(255, 255, 255, 0.12);
     }
 
     .footer-copy {
-      padding-top: 6px;
-      color: rgba(229, 241, 255, 0.92);
+      padding-top: 0;
+      color: rgb(113, 112, 112);
       font-size: clamp(0.9rem, 1.3vw, 1.05rem);
       font-weight: 500;
       letter-spacing: 0.01em;
@@ -1816,9 +1821,19 @@
           <div class="contact-email-row">
             <span class="contact-email-icon" aria-hidden="true">E</span>
             <span class="contact-email-value" id="contact-email">iamarhanmalik2026@gmail.com</span>
-            <button class="copy-email" id="copy-email" type="button" aria-label="Copy email address">Copy</button>
           </div>
-          <span class="copy-status" id="copy-status" role="status" aria-live="polite"></span>
+          <div class="contact-email-row contact-address-row">
+            <span class="contact-email-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+            </span>
+            <span class="contact-address-value">
+              <span>Address</span>
+              <strong>Delhi, India</strong>
+            </span>
+          </div>
         </div>
         <div class="contact-message">
           <h2 class="contact-heading">Quick intro</h2>
@@ -1842,31 +1857,6 @@
     }, { passive: true });
 
     document.getElementById('year').textContent = new Date().getFullYear();
-
-    const contactEmail = document.getElementById('contact-email').textContent.trim();
-    const copyEmailButton = document.getElementById('copy-email');
-    const copyStatus = document.getElementById('copy-status');
-
-    copyEmailButton.addEventListener('click', async () => {
-      try {
-        await navigator.clipboard.writeText(contactEmail);
-      } catch {
-        const temporaryInput = document.createElement('textarea');
-        temporaryInput.value = contactEmail;
-        temporaryInput.style.position = 'fixed';
-        temporaryInput.style.opacity = '0';
-        document.body.append(temporaryInput);
-        temporaryInput.select();
-        const copied = document.execCommand('copy');
-        temporaryInput.remove();
-        if (!copied) {
-          copyStatus.textContent = 'Could not copy email. Please copy it manually.';
-          return;
-        }
-      }
-
-      copyStatus.textContent = 'Email copied.';
-    });
 
     async function typeProfileIntro() {
       const target = document.querySelector('[data-typing-text]');
